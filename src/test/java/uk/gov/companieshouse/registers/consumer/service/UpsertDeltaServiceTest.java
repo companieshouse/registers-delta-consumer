@@ -40,6 +40,7 @@ class UpsertDeltaServiceTest {
     void shouldSuccessfullyPassDeserialisedAndMappedDeltaToApiClient() {
         // given
         when(deserialiser.deserialiseRegistersDelta(any())).thenReturn(delta);
+        when(delta.getCompanyNumber()).thenReturn(COMPANY_NUMBER);
         when(mapper.mapInternalRegisters(any(), anyString())).thenReturn(apiRequest);
 
         ChsDelta chsDelta = new ChsDelta("delta", 0, "contextId", false);
