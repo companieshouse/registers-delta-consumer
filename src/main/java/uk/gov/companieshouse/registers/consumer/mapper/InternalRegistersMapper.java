@@ -5,9 +5,6 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
@@ -137,10 +134,8 @@ public class InternalRegistersMapper {
     private Object mapOfficerRegisterLinks(String companyNumber, List<RegisteredItems> items, String registerType) {
         // only create the register type link if the latest (first in sorted array) item is at CH
         if (RegisteredItems.RegisterMovedToEnum.PUBLIC_REGISTER.equals(items.getFirst().getRegisterMovedTo())) {
-            Map<String, String> links = new HashMap<>();
-            links.put(registerType + REGISTER_TYPE_LINK_SUFFIX,
+            return Map.of(registerType + REGISTER_TYPE_LINK_SUFFIX,
                     OFFICER_REGISTER_PATTERN.formatted(companyNumber, registerType));
-            return links;
         }
         return null;
     }
@@ -152,34 +147,19 @@ public class InternalRegistersMapper {
                     RegisterListPersonsWithSignificantControl.RegisterTypeEnum.PERSONS_WITH_SIGNIFICANT_CONTROL.getValue()
                             + REGISTER_TYPE_LINK_SUFFIX;
             pscLinkKey = pscLinkKey.replace("-", "_");
-            Map<String, String> links = new HashMap<>();
-            links.put(pscLinkKey, PSC_REGISTER_PATTERN.formatted(companyNumber));
-            return links;
+            return Map.of(pscLinkKey, PSC_REGISTER_PATTERN.formatted(companyNumber));
         }
         return null;
     }
 
     private List<RegisteredItems> mapRegisterItems(String companyNumber, List<RegisterItem> items) {
-        List<RegisteredItems> mappedItems = new ArrayList<RegisteredItems>();
-        for (RegisterItem item : items) {
-            RegisteredItems mappedItem = new RegisteredItems();
-            mappedItem.setRegisterMovedTo(mapRegisterMovedTo(item.getChipsDescription()));
-            mappedItem.setMovedOn(mapMovedOn(item));
-//            mappedItem.setTransactionId(mapTransactionId(item)); transaction_id is mapped in perl code in chs-transform-api but is later removed in the old chs-registers-api and replaced with "links.filing"
-            mappedItem.setLinks(mapRegisterItemLinks(companyNumber, item));
-            mappedItems.add(mappedItem);
-        }
-
-        // sort mappedItems into reverse date order i.e. newest first
-        mappedItems.sort(new Comparator<RegisteredItems>() {
-            @Override
-            public int compare(RegisteredItems item1, RegisteredItems item2) {
-                return item2.getMovedOn()
-                        .compareTo(item1.getMovedOn()); // compare item2 to item1 so the order is newest first
-            }
-        });
-
-        return mappedItems;
+        return items.stream()
+                .map(item -> new RegisteredItems()
+                        .registerMovedTo(mapRegisterMovedTo(item.getChipsDescription()))
+                        .movedOn(mapMovedOn(item))
+                        .links(mapRegisterItemLinks(companyNumber, item)))
+                .sorted((item1, item2) -> item2.getMovedOn().compareTo(item1.getMovedOn()))
+                .toList();
     }
 
     private RegisteredItems.RegisterMovedToEnum mapRegisterMovedTo(String chipsDescription) {
@@ -201,10 +181,7 @@ public class InternalRegistersMapper {
         if (StringUtils.isEmpty(item.getTransactionId())) {
             return null;
         }
-
         String encodedId = transactionKindService.encodeTransactionId(item.getTransactionId());
-        Map<String, String> links = new HashMap<>();
-        links.put(FILING_HISTORY_LINK_NAME, FILING_HISTORY_LINK_PATTERN.formatted(companyNumber, encodedId));
-        return links;
+        return Map.of(FILING_HISTORY_LINK_NAME, FILING_HISTORY_LINK_PATTERN.formatted(companyNumber, encodedId));
     }
 }

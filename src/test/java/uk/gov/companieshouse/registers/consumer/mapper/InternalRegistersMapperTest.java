@@ -40,16 +40,19 @@ class InternalRegistersMapperTest {
 
     private static final String CONTEXT_ID = "context_id";
     private static final String COMPANY_NUMBER = "12345678";
+
     private static final String DIRECTORS_LINK = "/company/%s/officers?register_view=true&register_type=directors"
             .formatted(COMPANY_NUMBER);
     private static final String SECRETARIES_LINK = "/company/%s/officers?register_view=true&register_type=secretaries"
             .formatted(COMPANY_NUMBER);
     private static final String PSC_LINK = "/company/%s/persons-with-significant-control?register_view=true"
             .formatted(COMPANY_NUMBER);
+
     private static final String TRANSACTION_ID = "9876543210";
     private static final String ENCODED_ID = "encoded_id";
     private static final String FILING_HISTORY_LINK = "/company/%s/filing-history/%s"
             .formatted(COMPANY_NUMBER, ENCODED_ID);
+
     private static final String ROA = "ROA";
     private static final String COMPANIES_HOUSE = "COMPANIES_HOUSE";
     private static final String SAIL = "SAIL";
