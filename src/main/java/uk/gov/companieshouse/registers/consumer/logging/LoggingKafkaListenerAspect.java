@@ -81,6 +81,8 @@ class LoggingKafkaListenerAspect {
         if (payload instanceof ChsDelta chsDelta) {
             return chsDelta;
         }
-        throw new NonRetryableException("Invalid payload type. payload: %s".formatted(payload.toString()));
+        String errorMessage = "Invalid payload type, payload: [%s]".formatted(payload.toString());
+        LOGGER.error(errorMessage, DataMapHolder.getLogMap());
+        throw new NonRetryableException(errorMessage);
     }
 }

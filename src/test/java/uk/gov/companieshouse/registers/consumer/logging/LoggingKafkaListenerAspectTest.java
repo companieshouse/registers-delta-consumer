@@ -59,7 +59,7 @@ class LoggingKafkaListenerAspectTest {
         //then
         assertEquals(expected, actual);
         assertTrue(capture.getOut().contains("Processed delta"));
-        verifySuccessfulLogMap(capture);
+        verifyInfoLogMap(capture);
     }
 
     @Test
@@ -80,12 +80,7 @@ class LoggingKafkaListenerAspectTest {
         //then
         assertEquals(expected, actual);
         assertTrue(capture.getOut().contains("Processed DELETE delta"));
-        assertTrue(capture.getOut().contains("event: info"));
-        assertTrue(capture.getOut().contains("request_id: %s".formatted(CONTEXT_ID)));
-        assertTrue(capture.getOut().contains("retry_count: 0"));
-        assertTrue(capture.getOut().contains("topic: %s".formatted(TOPIC)));
-        assertTrue(capture.getOut().contains("partition: 0"));
-        assertTrue(capture.getOut().contains("offset: 0"));
+        verifyInfoLogMap(capture);
     }
 
     @Test
@@ -104,12 +99,7 @@ class LoggingKafkaListenerAspectTest {
         //then
         assertThrows(RetryableException.class, actual);
         assertTrue(capture.getOut().contains("RetryableException exception thrown"));
-        assertTrue(capture.getOut().contains("event: info"));
-        assertTrue(capture.getOut().contains("request_id: %s".formatted(CONTEXT_ID)));
-        assertTrue(capture.getOut().contains("retry_count: 0"));
-        assertTrue(capture.getOut().contains("topic: %s".formatted(TOPIC)));
-        assertTrue(capture.getOut().contains("partition: 0"));
-        assertTrue(capture.getOut().contains("offset: 0"));
+        verifyInfoLogMap(capture);
     }
 
     @Test
@@ -127,13 +117,13 @@ class LoggingKafkaListenerAspectTest {
 
         //then
         assertThrows(RetryableException.class, actual);
-        assertTrue(capture.getOut().contains("event: error"));
-        assertTrue(capture.getOut().contains("Max retry attempts reached"));
-        assertTrue(capture.getOut().contains("request_id: %s".formatted(CONTEXT_ID)));
-        assertTrue(capture.getOut().contains("retry_count: 4"));
-        assertTrue(capture.getOut().contains("topic: %s".formatted(TOPIC)));
-        assertTrue(capture.getOut().contains("partition: 0"));
-        assertTrue(capture.getOut().contains("offset: 0"));
+        assertTrue(capture.getOut().contains("\"event\":\"error\""));
+        assertTrue(capture.getOut().contains("\"message\":\"Max retry attempts reached\""));
+        assertTrue(capture.getOut().contains("\"request_id\":\"%s\"".formatted(CONTEXT_ID)));
+        assertTrue(capture.getOut().contains("\"retry_count\":4"));
+        assertTrue(capture.getOut().contains("\"topic\":\"%s\"".formatted(TOPIC)));
+        assertTrue(capture.getOut().contains("\"partition\":0"));
+        assertTrue(capture.getOut().contains("\"offset\":0"));
     }
 
     @Test
@@ -149,21 +139,21 @@ class LoggingKafkaListenerAspectTest {
 
         //then
         assertThrows(NonRetryableException.class, actual);
-        assertTrue(capture.getOut().contains("event: error"));
-        assertTrue(capture.getOut().contains("Invalid payload type. payload: message payload"));
-        assertTrue(capture.getOut().contains("request_id: uninitialised"));
+        assertTrue(capture.getOut().contains("\"event\":\"error\""));
+        assertTrue(capture.getOut().contains("\"message\":\"Invalid payload type, payload: [message payload]\""));
+        assertTrue(capture.getOut().contains("\"request_id\":\"uninitialised\""));
         assertFalse(capture.getOut().contains("retry_count"));
         assertFalse(capture.getOut().contains("topic"));
         assertFalse(capture.getOut().contains("partition"));
         assertFalse(capture.getOut().contains("offset"));
     }
 
-    private static void verifySuccessfulLogMap(CapturedOutput capture) {
-        assertTrue(capture.getOut().contains("event: info"));
-        assertTrue(capture.getOut().contains("request_id: %s".formatted(CONTEXT_ID)));
-        assertTrue(capture.getOut().contains("retry_count: 0"));
-        assertTrue(capture.getOut().contains("topic: %s".formatted(TOPIC)));
-        assertTrue(capture.getOut().contains("partition: 0"));
-        assertTrue(capture.getOut().contains("offset: 0"));
+    private static void verifyInfoLogMap(CapturedOutput capture) {
+        assertTrue(capture.getOut().contains("\"event\":\"info\""));
+        assertTrue(capture.getOut().contains("\"request_id\":\"%s\"".formatted(CONTEXT_ID)));
+        assertTrue(capture.getOut().contains("\"retry_count\":0"));
+        assertTrue(capture.getOut().contains("\"topic\":\"%s\"".formatted(TOPIC)));
+        assertTrue(capture.getOut().contains("\"partition\":0"));
+        assertTrue(capture.getOut().contains("\"offset\":0"));
     }
 }
