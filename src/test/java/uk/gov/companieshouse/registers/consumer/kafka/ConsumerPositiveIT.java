@@ -62,16 +62,16 @@ class ConsumerPositiveIT extends AbstractKafkaIT {
     }
 
     @Test
-    void shouldConsumeRegistersDeltaTopicAndProcessTM01Delta() throws Exception {
+    void shouldConsumeRegistersDeltaTopicAndProcessDelta() throws Exception {
         // given
-        final String delta = IOUtils.resourceToString("registers_delta.json", StandardCharsets.UTF_8);
+        final String delta = IOUtils.resourceToString("/registers-delta.json", StandardCharsets.UTF_8);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         Encoder encoder = EncoderFactory.get().directBinaryEncoder(outputStream, null);
         DatumWriter<ChsDelta> writer = new ReflectDatumWriter<>(ChsDelta.class);
         writer.write(new ChsDelta(delta, 0, "context_id", false), encoder);
 
-        final String expectedRequestBody = IOUtils.resourceToString("registers_request_body.json",
+        final String expectedRequestBody = IOUtils.resourceToString("/registers-request-body.json",
                 StandardCharsets.UTF_8);
         final String expectedRequestUri = "/company/%s/registers".formatted(COMPANY_NUMBER);
 
@@ -97,9 +97,9 @@ class ConsumerPositiveIT extends AbstractKafkaIT {
     }
 
     @Test
-    void shouldConsumeRegistersDeleteDeltaAndProcessSuccessfully() throws Exception {
+    void shouldConsumeRegistersTopicAndProcessDeleteDelta() throws Exception {
         // given
-        final String delta = IOUtils.resourceToString("registers_delete-delta.json", StandardCharsets.UTF_8);
+        final String delta = IOUtils.resourceToString("/registers-delete-delta.json", StandardCharsets.UTF_8);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         Encoder encoder = EncoderFactory.get().directBinaryEncoder(outputStream, null);
