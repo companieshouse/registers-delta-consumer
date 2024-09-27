@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import uk.gov.companieshouse.api.delta.RegisterDelta;
 import uk.gov.companieshouse.api.delta.RegisterItem;
@@ -32,7 +31,8 @@ import uk.gov.companieshouse.registers.consumer.exception.InvalidPayloadExceptio
 @Component
 public class InternalRegistersMapper {
 
-    private static final DateTimeFormatter DELTA_AT_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSSSSS").withZone(ZoneId.of("Z"));
+    private static final DateTimeFormatter DELTA_AT_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSSSSS")
+            .withZone(ZoneId.of("Z"));
     private static final DateTimeFormatter MOVED_ON_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 
     private static final String CHIPS_DESCRIPTION_ROA = "ROA";
@@ -49,8 +49,8 @@ public class InternalRegistersMapper {
 
     private final TransactionKindService transactionKindService;
 
-    public InternalRegistersMapper(@Value("${transaction-id-salt}") String transactionIdSalt) {
-        this.transactionKindService = new TransactionKindService(transactionIdSalt);
+    public InternalRegistersMapper(TransactionKindService transactionKindService) {
+        this.transactionKindService = transactionKindService;
     }
 
     public InternalRegisters mapInternalRegisters(RegisterDelta delta, String updatedBy) {
@@ -92,8 +92,10 @@ public class InternalRegistersMapper {
 
         if (delta.getPersonsWithSignificantControl() != null) {
             RegisterListPersonsWithSignificantControl register = new RegisterListPersonsWithSignificantControl();
-            register.setRegisterType(RegisterListPersonsWithSignificantControl.RegisterTypeEnum.PERSONS_WITH_SIGNIFICANT_CONTROL);
-            register.setItems(mapRegisterItems(delta.getCompanyNumber(), delta.getPersonsWithSignificantControl().getItems()));
+            register.setRegisterType(
+                    RegisterListPersonsWithSignificantControl.RegisterTypeEnum.PERSONS_WITH_SIGNIFICANT_CONTROL);
+            register.setItems(
+                    mapRegisterItems(delta.getCompanyNumber(), delta.getPersonsWithSignificantControl().getItems()));
             register.setLinks(mapPscRegisterLinks(delta.getCompanyNumber(), register.getItems()));
             registers.setPersonsWithSignificantControl(register);
         }
@@ -108,7 +110,8 @@ public class InternalRegistersMapper {
         if (delta.getUsualResidentialAddress() != null) {
             RegisterListUsualResidentialAddress register = new RegisterListUsualResidentialAddress();
             register.setRegisterType(RegisterListUsualResidentialAddress.RegisterTypeEnum.USUAL_RESIDENTIAL_ADDRESS);
-            register.setItems(mapRegisterItems(delta.getCompanyNumber(), delta.getUsualResidentialAddress().getItems()));
+            register.setItems(
+                    mapRegisterItems(delta.getCompanyNumber(), delta.getUsualResidentialAddress().getItems()));
             registers.setUsualResidentialAddress(register);
         }
 
@@ -121,8 +124,10 @@ public class InternalRegistersMapper {
 
         if (delta.getLlpUsualResidentialAddress() != null) {
             RegisterListLLPUsualResidentialAddress register = new RegisterListLLPUsualResidentialAddress();
-            register.setRegisterType(RegisterListLLPUsualResidentialAddress.RegisterTypeEnum.LLP_USUAL_RESIDENTIAL_ADDRESS);
-            register.setItems(mapRegisterItems(delta.getCompanyNumber(), delta.getLlpUsualResidentialAddress().getItems()));
+            register.setRegisterType(
+                    RegisterListLLPUsualResidentialAddress.RegisterTypeEnum.LLP_USUAL_RESIDENTIAL_ADDRESS);
+            register.setItems(
+                    mapRegisterItems(delta.getCompanyNumber(), delta.getLlpUsualResidentialAddress().getItems()));
             registers.setLlpUsualResidentialAddress(register);
         }
 
@@ -133,7 +138,8 @@ public class InternalRegistersMapper {
         // only create the register type link if the latest (first in sorted array) item is at CH
         if (RegisteredItems.RegisterMovedToEnum.PUBLIC_REGISTER.equals(items.getFirst().getRegisterMovedTo())) {
             Map<String, String> links = new HashMap<>();
-            links.put(registerType + REGISTER_TYPE_LINK_SUFFIX, OFFICER_REGISTER_PATTERN.formatted(companyNumber, registerType));
+            links.put(registerType + REGISTER_TYPE_LINK_SUFFIX,
+                    OFFICER_REGISTER_PATTERN.formatted(companyNumber, registerType));
             return links;
         }
         return null;
@@ -142,9 +148,10 @@ public class InternalRegistersMapper {
     private Object mapPscRegisterLinks(String companyNumber, List<RegisteredItems> items) {
         // only create the register type link if the latest (first in sorted array) item is at CH
         if (RegisteredItems.RegisterMovedToEnum.PUBLIC_REGISTER.equals(items.getFirst().getRegisterMovedTo())) {
-            String pscLinkKey = RegisterListPersonsWithSignificantControl.RegisterTypeEnum.PERSONS_WITH_SIGNIFICANT_CONTROL.getValue()
-                    + REGISTER_TYPE_LINK_SUFFIX;
-            pscLinkKey = pscLinkKey.replaceAll("-", "_");
+            String pscLinkKey =
+                    RegisterListPersonsWithSignificantControl.RegisterTypeEnum.PERSONS_WITH_SIGNIFICANT_CONTROL.getValue()
+                            + REGISTER_TYPE_LINK_SUFFIX;
+            pscLinkKey = pscLinkKey.replace("-", "_");
             Map<String, String> links = new HashMap<>();
             links.put(pscLinkKey, PSC_REGISTER_PATTERN.formatted(companyNumber));
             return links;
@@ -167,7 +174,8 @@ public class InternalRegistersMapper {
         mappedItems.sort(new Comparator<RegisteredItems>() {
             @Override
             public int compare(RegisteredItems item1, RegisteredItems item2) {
-                return item2.getMovedOn().compareTo(item1.getMovedOn()); // compare item2 to item1 so the order is newest first
+                return item2.getMovedOn()
+                        .compareTo(item1.getMovedOn()); // compare item2 to item1 so the order is newest first
             }
         });
 
@@ -180,7 +188,8 @@ public class InternalRegistersMapper {
             case CHIPS_DESCRIPTION_SAIL -> RegisteredItems.RegisterMovedToEnum.SINGLE_ALTERNATIVE_INSPECTION_LOCATION;
             case CHIPS_DESCRIPTION_COMPANIES_HOUSE -> RegisteredItems.RegisterMovedToEnum.PUBLIC_REGISTER;
             case CHIPS_DESCRIPTION_UNSPECIFIED -> RegisteredItems.RegisterMovedToEnum.UNSPECIFIED_LOCATION;
-            default -> throw new InvalidPayloadException("Invalid CHIPS Description: [%s]".formatted(chipsDescription), null);
+            case null, default -> throw new InvalidPayloadException("Invalid CHIPS Description: [%s]"
+                    .formatted(chipsDescription));
         };
     }
 
