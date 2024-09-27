@@ -10,9 +10,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 import uk.gov.companieshouse.delta.ChsDelta;
-import uk.gov.companieshouse.registers.consumer.exception.NonRetryableException;
 import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.logging.LoggerFactory;
+import uk.gov.companieshouse.registers.consumer.exception.NonRetryableException;
 
 @Component
 @Aspect

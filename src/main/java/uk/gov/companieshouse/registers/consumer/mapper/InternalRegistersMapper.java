@@ -1,20 +1,33 @@
 package uk.gov.companieshouse.registers.consumer.mapper;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import uk.gov.companieshouse.api.delta.RegisterDelta;
 import uk.gov.companieshouse.api.delta.RegisterItem;
 import uk.gov.companieshouse.api.filinghistory.utils.TransactionKindService;
-import uk.gov.companieshouse.api.registers.*;
+import uk.gov.companieshouse.api.registers.InternalData;
+import uk.gov.companieshouse.api.registers.InternalRegisters;
+import uk.gov.companieshouse.api.registers.RegisterListDirectors;
+import uk.gov.companieshouse.api.registers.RegisterListLLPMembers;
+import uk.gov.companieshouse.api.registers.RegisterListLLPUsualResidentialAddress;
+import uk.gov.companieshouse.api.registers.RegisterListMembers;
+import uk.gov.companieshouse.api.registers.RegisterListPersonsWithSignificantControl;
+import uk.gov.companieshouse.api.registers.RegisterListSecretaries;
+import uk.gov.companieshouse.api.registers.RegisterListUsualResidentialAddress;
+import uk.gov.companieshouse.api.registers.RegisteredItems;
+import uk.gov.companieshouse.api.registers.Registers;
 import uk.gov.companieshouse.registers.consumer.exception.InvalidPayloadException;
-
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
 
 @Component
 public class InternalRegistersMapper {

@@ -6,10 +6,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import java.io.IOException;
 import java.util.List;
-import uk.gov.companieshouse.registers.consumer.exception.NonRetryableException;
-import uk.gov.companieshouse.registers.consumer.logging.DataMapHolder;
 import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.logging.LoggerFactory;
+import uk.gov.companieshouse.registers.consumer.exception.NonRetryableException;
+import uk.gov.companieshouse.registers.consumer.logging.DataMapHolder;
 
 public class ArrayNodeDeserialiser<T> {
 
