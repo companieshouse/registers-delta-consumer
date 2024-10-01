@@ -1,7 +1,7 @@
 package uk.gov.companieshouse.registers.consumer.kafka;
 
+import com.google.common.collect.Iterables;
 import java.time.Duration;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 
 final class KafkaUtils {
@@ -15,11 +15,7 @@ final class KafkaUtils {
     }
 
     static int noOfRecordsForTopic(ConsumerRecords<?, ?> records, String topic) {
-        int count = 0;
-        for (ConsumerRecord<?, ?> ignored : records.records(topic)) {
-            count++;
-        }
-        return count;
+        return Iterables.size(records.records(topic));
     }
 
     static Duration kafkaPollingDuration() {
