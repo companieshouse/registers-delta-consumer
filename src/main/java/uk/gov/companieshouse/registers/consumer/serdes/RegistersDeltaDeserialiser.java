@@ -5,14 +5,12 @@ import static uk.gov.companieshouse.registers.consumer.Application.NAMESPACE;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
-import uk.gov.companieshouse.api.delta.FilingHistoryDeleteDelta;
-import uk.gov.companieshouse.api.delta.FilingHistoryDelta;
 import uk.gov.companieshouse.api.delta.RegisterDelta;
 import uk.gov.companieshouse.api.delta.RegistersDeleteDelta;
-import uk.gov.companieshouse.registers.consumer.exception.NonRetryableException;
-import uk.gov.companieshouse.registers.consumer.logging.DataMapHolder;
 import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.logging.LoggerFactory;
+import uk.gov.companieshouse.registers.consumer.exception.NonRetryableException;
+import uk.gov.companieshouse.registers.consumer.logging.DataMapHolder;
 
 @Component
 public class RegistersDeltaDeserialiser {

@@ -1,0 +1,79 @@
+{
+  "external_data": {
+    "directors": {
+      "register_type": "directors",
+      "items": [
+        {
+          "moved_on": "2023-10-30",
+          "register_moved_to": "public-register"
+        },
+        {
+          "moved_on": "2022-10-30",
+          "register_moved_to": "registered-office"
+        }
+      ],
+      "links": {
+        "directors_register": "/company/12345678/officers?register_view=true&register_type=directors"
+      }
+    },
+    "members": {
+      "register_type": "members",
+      "items": [
+        {
+          "moved_on": "2023-10-30",
+          "register_moved_to": "public-register"
+        },
+        {
+          "moved_on": "2022-10-30",
+          "register_moved_to": "registered-office"
+        }
+      ]
+    },
+    "persons_with_significant_control": {
+      "register_type": "persons-with-significant-control",
+      "items": [
+        {
+          "moved_on": "2023-10-30",
+          "register_moved_to": "public-register"
+        },
+        {
+          "moved_on": "2022-10-30",
+          "register_moved_to": "registered-office"
+        }
+      ],
+      "links": {
+        "persons_with_significant_control_register": "/company/12345678/persons-with-significant-control?register_view=true"
+      }
+    },
+    "usual_residential_address": {
+      "register_type": "usual-residential-address",
+      "items": [
+        {
+          "moved_on": "2023-10-30",
+          "register_moved_to": "single-alternative-inspection-location"
+        },
+        {
+          "moved_on": "2022-10-30",
+          "register_moved_to": "registered-office"
+        }
+      ]
+    },
+    "secretaries": {
+      "register_type": "secretaries",
+      "items": [
+        {
+          "moved_on": "2023-10-30",
+          "register_moved_to": "unspecified-location"
+        },
+        {
+          "moved_on": "2022-10-30",
+          "register_moved_to": "registered-office"
+        }
+      ]
+    }
+  },
+  "internal_data": {
+    "delta_at": "2023-10-30T11:18:06.428778Z",
+    "updated_by": "context_id"
+  }
+}

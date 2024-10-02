@@ -1,7 +1,6 @@
 package uk.gov.companieshouse.registers.consumer.service;
 
 import org.springframework.stereotype.Component;
-import uk.gov.companieshouse.api.delta.FilingHistoryDeleteDelta;
 import uk.gov.companieshouse.api.delta.RegistersDeleteDelta;
 import uk.gov.companieshouse.delta.ChsDelta;
 import uk.gov.companieshouse.registers.consumer.apiclient.RegistersApiClient;

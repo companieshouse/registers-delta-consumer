@@ -10,10 +10,10 @@ import org.apache.avro.io.DecoderFactory;
 import org.apache.avro.reflect.ReflectDatumReader;
 import org.apache.kafka.common.serialization.Deserializer;
 import uk.gov.companieshouse.delta.ChsDelta;
-import uk.gov.companieshouse.registers.consumer.exception.InvalidPayloadException;
-import uk.gov.companieshouse.registers.consumer.logging.DataMapHolder;
 import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.logging.LoggerFactory;
+import uk.gov.companieshouse.registers.consumer.exception.InvalidPayloadException;
+import uk.gov.companieshouse.registers.consumer.logging.DataMapHolder;
 
 public class ChsDeltaDeserialiser implements Deserializer<ChsDelta> {
 

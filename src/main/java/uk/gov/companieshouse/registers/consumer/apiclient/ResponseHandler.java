@@ -7,11 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import uk.gov.companieshouse.api.error.ApiErrorResponseException;
 import uk.gov.companieshouse.api.handler.exception.URIValidationException;
+import uk.gov.companieshouse.logging.Logger;
+import uk.gov.companieshouse.logging.LoggerFactory;
 import uk.gov.companieshouse.registers.consumer.exception.NonRetryableException;
 import uk.gov.companieshouse.registers.consumer.exception.RetryableException;
 import uk.gov.companieshouse.registers.consumer.logging.DataMapHolder;
-import uk.gov.companieshouse.logging.Logger;
-import uk.gov.companieshouse.logging.LoggerFactory;
 
 @Component
 public class ResponseHandler {
