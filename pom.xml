@@ -25,7 +25,7 @@
     <maven-failsafe-plugin.version>${maven-surefire.version}</maven-failsafe-plugin.version>
     <commons-text.version>1.12.0</commons-text.version>
     <commons-lang3.version>3.18.0</commons-lang3.version>
-    <tomcat-embed-core.version>11.0.11</tomcat-embed-core.version>
+    <tomcat-embed-core.version>11.0.12</tomcat-embed-core.version>
     <wiremock.version>3.9.1</wiremock.version>
 
     <skip.unit.tests>false</skip.unit.tests>
