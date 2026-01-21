@@ -45,10 +45,17 @@
     <jayway-jsonpath.version>2.9.0</jayway-jsonpath.version>
 
     <!--sonar configuration-->
-    <sonar.coverage.jacoco.xmlReportPaths>
-      ${project.build.directory}/site/jacoco/jacoco.xml
-    </sonar.coverage.jacoco.xmlReportPaths>
-    <sonar.jacoco.reports>${project.build.directory}/site</sonar.jacoco.reports>
+		<sonar-maven-plugin.version>4.0.0.4121</sonar-maven-plugin.version>
+		<sonar.java.binaries>${project.basedir}/target</sonar.java.binaries>
+		<sonar.token>${CODE_ANALYSIS_TOKEN}</sonar.token>
+		<sonar.login></sonar.login>
+		<sonar.password></sonar.password>
+		<sonar.projectKey>uk.gov.companieshouse:registers-delta-consumer</sonar.projectKey>
+		<sonar.projectName>registers-delta-consumer</sonar.projectName>
+		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml,
+			${project.basedir}/target/site/jacoco-it/jacoco.xml
+		</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.jacoco.reports>${project.basedir}/target/site</sonar.jacoco.reports>
   </properties>
 
   <dependencyManagement>
