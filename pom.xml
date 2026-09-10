@@ -28,7 +28,7 @@
         <jacoco-maven-plugin.version>0.8.15</jacoco-maven-plugin.version>
 
         <!-- Source: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies -->
-        <spring-boot.version>4.1.0</spring-boot.version>
+        <spring-boot.version>4.1.1</spring-boot.version>
         <!-- Source: https://mvnrepository.com/artifact/org.testcontainers/testcontainers-bom -->
         <test-containers.version>2.0.5</test-containers.version>
         <!-- Source: https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
@@ -44,7 +44,7 @@
         <!-- Source: https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc17 -->
         <oracle-driver.version>23.26.2.0.0</oracle-driver.version>
         <!-- Source: https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-core -->
-        <tomcat.version>11.0.24</tomcat.version>
+        <tomcat.version>11.0.25</tomcat.version>
 
         <skip.unit.tests>false</skip.unit.tests>
         <skip.integration.tests>false</skip.integration.tests>
